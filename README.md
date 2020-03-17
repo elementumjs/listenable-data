@@ -25,7 +25,7 @@ Data object listenable for deep changes.
 #### JavaScript `import`
   
 ```javascript
-    import Data from 'elementumjs/listenable-data';
+    import Data from '@elementumjs/listenable-data';
 ```
 
 #### Node `require`
@@ -35,17 +35,39 @@ Data object listenable for deep changes.
 ```
 
 ### Listen for a change
+1. Define initial data object.
+2. Define change listener that receives three parameters:
+    * `ref`: With the reference of attribute changed.
+    * `value`: Current value of attribute after the change.
+    * `last`: Last value of the attribute.
+3. Apply constructor over the defined object and the listener.
+4. Trigger a change.
+
+#### Example
+
 ```javascript
+    // Instance initial data
     let initialData = {
         deep: {
             counter: 0
         }
     });
-
-    let data = new Data(intialData, ({ref, value, last}) => {
+   
+    // Define listener function
+    let changeListener =  ({ref, value, last}) => {
         console.log(ref, value, last);
     }
 
+    // Create data
+    let data = new Data(intialData, changeListener); 
+
+    // Get all the data attributes references:
+    console.log(Data.refs(data)); // ["deep", "deep.counter"]
+
+    // Check if data contains a reference
+    console.log(Data.contains(data, 'deep.counter')); // true
+
+    // Change the data
     data.deep.counter++; // 'deep.counter', 1, 0
 ```
 
