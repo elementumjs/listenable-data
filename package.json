@@ -1,0 +1,40 @@
+{
+  "name": "@elementumjs/listenable-data",
+  "version": "0.0.1",
+  "description": "Data object listenable for deep changes.",
+  "main": "dist/listenable-data.cjs.js",
+  "module": "dist/listenable-data.esm.js",
+  "browser": "dist/listenable-data.umd.js",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "NODE_ENV=production rollup -c build/rollup.config.js",
+    "dev": "rollup -w -c build/rollup.config.js",
+    "start": "npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elementum-js/listenable-data.git"
+  },
+  "author": "Lucas Menendez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elementum-js/listenable-data/issues"
+  },
+  "homepage": "https://github.com/elementum-js/listenable-data#readme",
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-transform-runtime": "^7.7.6",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/runtime": "^7.7.7",
+    "@rollup/plugin-commonjs": "^11.0.0",
+    "@rollup/plugin-node-resolve": "^6.0.0",
+    "rollup": "^1.27.5",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-uglify": "^6.0.4"
+  },
+  "dependencies": {}
+}
