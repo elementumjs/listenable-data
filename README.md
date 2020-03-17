@@ -9,6 +9,14 @@ Data object listenable for deep changes.
 
 ## How to use
 
+### Add Github Packages to your registry:
+
+n the same directory as your `package.json` file, create or edit an `.npmrc` file to include the followinf line:
+
+```
+    registry=https://npm.pkg.github.com/elementumjs
+```
+
 ### Installation
 ```sh
     npm install @elementumjs/listenable-data
