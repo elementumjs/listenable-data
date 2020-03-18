@@ -12,7 +12,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest lib/*",
     "build": "NODE_ENV=production rollup -c build/rollup.config.js",
     "dev": "rollup -w -c build/rollup.config.js",
     "start": "npm run dev"
@@ -34,6 +34,9 @@
     "@babel/runtime": "^7.7.7",
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^6.0.0",
+    "babel-jest": "^25.1.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^25.1.0",
     "rollup": "^1.27.5",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-uglify": "^6.0.4"
