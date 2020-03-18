@@ -1,6 +1,6 @@
 {
   "name": "@elementumjs/listenable-data",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Data object listenable for deep changes.",
   "main": "dist/listenable-data.cjs.js",
   "module": "dist/listenable-data.esm.js",
