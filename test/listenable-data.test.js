@@ -1,4 +1,4 @@
-import Data from "./listenable-data.js";
+import Data from "../lib/listenable-data.js";
 
 test("Data.constructor", () => {
     const fn = () => {};
