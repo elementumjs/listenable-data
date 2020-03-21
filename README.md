@@ -1,6 +1,7 @@
 # `listenable-data`
 
-![develop_test](https://github.com/elementumjs/listenable-data/workflows/develop_test/badge.svg?branch=develop&event=push)
+![master](https://github.com/elementumjs/listenable-data/workflows/master/badge.svg?branch=master&event=push)
+![develop](https://github.com/elementumjs/listenable-data/workflows/develop/badge.svg?branch=develop&event=push)
 ![package_version](https://img.shields.io/github/package-json/v/elementumjs/listenable-data)
 ![license](https://img.shields.io/github/license/elementumjs/listenable-data)
 

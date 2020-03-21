@@ -1,4 +1,4 @@
-name: Master branch test, build, release and publish
+name: master
 on:
   push:
     branches:
@@ -16,7 +16,7 @@ jobs:
       - run: npm ci
       - run: npm test
   publish:
-    needs: release
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
