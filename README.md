@@ -1,5 +1,7 @@
 # `listenable-data`
 
+![develop_test](https://github.com/elementumjs/listenable-data/workflows/develop_test/badge.svg?branch=develop&event=push)
+
 Data object listenable for deep changes.
 
 * [Installtion](#installation)
