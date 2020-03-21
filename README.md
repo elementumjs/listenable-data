@@ -1,17 +1,25 @@
 # `listenable-data`
 
 ![develop_test](https://github.com/elementumjs/listenable-data/workflows/develop_test/badge.svg?branch=develop&event=push)
+![package_version](https://img.shields.io/github/package-json/v/elementumjs/listenable-data)
+![license](https://img.shields.io/github/license/elementumjs/listenable-data)
+
 
 Data object listenable for deep changes.
 
-* [Installtion](#installation)
-* [Listen for a change](#listen-for-a-change)
-
+- [`listenable-data`](#listenable-data)
+    - [Add Github Packages to your registry](#add-github-packages-to-your-registry)
+    - [Installation](#installation)
+    - [Import](#import)
+      - [HTML `<script>` tag](#html-script-tag)
+      - [JavaScript `import`](#javascript-import)
+      - [Node `require`](#node-require)
+    - [Listen for a change](#listen-for-a-change)
+      - [Example](#example)
 ---
 
-## How to use
 
-### Add Github Packages to your registry:
+### Add Github Packages to your registry
 
 n the same directory as your `package.json` file, create or edit an `.npmrc` file to include the followinf line:
 
