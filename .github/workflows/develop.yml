@@ -1,4 +1,4 @@
-name: Develop branch test
+name: develop_test
 on:
   push:
     branches:
