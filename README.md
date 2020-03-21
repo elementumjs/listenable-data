@@ -21,13 +21,15 @@ Data object listenable for deep changes.
 
 ### Add Github Packages to your registry
 
-n the same directory as your `package.json` file, create or edit an `.npmrc` file to include the followinf line:
+Create or edit the `.npmrc` file in the same directory as your `package.json` and include the following line:
 
 ```
     registry=https://npm.pkg.github.com/elementumjs
 ```
 
 ### Installation
+
+Install via `npm`:
 ```sh
     npm install @elementumjs/listenable-data
 ```
@@ -79,10 +81,12 @@ n the same directory as your `package.json` file, create or edit an `.npmrc` fil
     // Create data
     let data = new Data(intialData, changeListener); 
 
-    // Get all the data attributes references:
+    // Get all the data attributes references
     console.log(Data.refs(data)); // ["deep", "deep.counter"]
+
     // Check if data contains a reference
     console.log(Data.contains(data, 'deep.counter')); // true
+
     // Change the data
     data.deep.counter++; // 'deep.counter', 1, 0
 ```
