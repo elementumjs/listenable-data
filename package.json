@@ -1,6 +1,6 @@
 {
   "name": "@elementumjs/listenable-data",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Data object listenable for deep changes.",
   "main": "dist/listenable-data.cjs.js",
   "module": "dist/listenable-data.esm.js",
@@ -15,7 +15,8 @@
     "test": "jest test/*",
     "build": "NODE_ENV=production rollup -c build/rollup.config.js",
     "dev": "rollup -w -c build/rollup.config.js",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "docs": "documentation build lib/listenable-data.js -f md -o REFERENCE.md"
   },
   "repository": {
     "type": "git",

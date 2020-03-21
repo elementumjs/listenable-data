@@ -1,22 +1,26 @@
+![listenable-data header][0]
+
 # `listenable-data`
 
-![master](https://github.com/elementumjs/listenable-data/workflows/master/badge.svg?branch=master&event=push)
-![develop](https://github.com/elementumjs/listenable-data/workflows/develop/badge.svg?branch=develop&event=push)
+![production](https://github.com/elementumjs/listenable-data/workflows/production/badge.svg)
+![develop](https://github.com/elementumjs/listenable-data/workflows/develop/badge.svg)
 ![package_version](https://img.shields.io/github/package-json/v/elementumjs/listenable-data)
+[![reference](https://img.shields.io/badge/docs-REFERENCE-blue)][1]
 ![license](https://img.shields.io/github/license/elementumjs/listenable-data)
 
 
-Data object listenable for deep changes.
+Data structure to listen for deep changes into objects' attributes.
 
-- [`listenable-data`](#listenable-data)
-    - [Add Github Packages to your registry](#add-github-packages-to-your-registry)
-    - [Installation](#installation)
-    - [Import](#import)
-      - [HTML `<script>` tag](#html-script-tag)
-      - [JavaScript `import`](#javascript-import)
-      - [Node `require`](#node-require)
-    - [Listen for a change](#listen-for-a-change)
-      - [Example](#example)
+- [`listenable-data`][2]
+    - [Add Github Packages to your registry][3]
+    - [Installation][4]
+    - [Import][5]
+      - [HTML `<script>` tag][6]
+      - [JavaScript `import`][7]
+      - [Node `require`][8]
+    - [Listen for a change][9]
+      - [Example][10]
+
 ---
 
 
@@ -92,3 +96,24 @@ Install via `npm`:
     data.deep.counter++; // 'deep.counter', 1, 0
 ```
 
+[0]: assets/header.png
+
+[1]: REFERENCE.md
+
+[2]: #listenable-data
+
+[3]: #add-github-packages-to-your-registry
+
+[4]: #installation
+
+[5]: #import
+
+[6]: #html-script-tag
+
+[7]: #javascript-import
+
+[8]: #node-require
+
+[9]: #listen-for-a-change
+
+[10]: #example 
