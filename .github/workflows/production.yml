@@ -1,0 +1,31 @@
+name: Master branch test, build, release and publish
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm test
+  publish:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+      - uses: npm ci
+      - uses: npm build 
+      - uses: npm publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
