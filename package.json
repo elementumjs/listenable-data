@@ -12,7 +12,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "jest lib/*",
+    "test": "jest test/*",
     "build": "NODE_ENV=production rollup -c build/rollup.config.js",
     "dev": "rollup -w -c build/rollup.config.js",
     "start": "npm run dev"
