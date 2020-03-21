@@ -60,9 +60,9 @@ n the same directory as your `package.json` file, create or edit an `.npmrc` fil
             counter: 0
         }
     });
-   
+
     // Define listener function
-    let changeListener =  ({ref, value, last}) => {
+    let changeListener = (ref, value, last) => {
         console.log(ref, value, last);
     }
 
@@ -71,10 +71,8 @@ n the same directory as your `package.json` file, create or edit an `.npmrc` fil
 
     // Get all the data attributes references:
     console.log(Data.refs(data)); // ["deep", "deep.counter"]
-
     // Check if data contains a reference
     console.log(Data.contains(data, 'deep.counter')); // true
-
     // Change the data
     data.deep.counter++; // 'deep.counter', 1, 0
 ```
