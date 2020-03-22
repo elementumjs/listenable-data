@@ -33,14 +33,14 @@ let initialData = {
 });
 
 // Define listener function
-let changeListener =  (ref, value, last) => {
+let changeListener = (ref, value, last) => {
     console.log(ref, value, last);
 }
 
 // Create data
 let data = new Data(intialData, changeListener); 
 
-// Get all the data attributes references:
+// Get all the data attributes references
 console.log(Data.refs(data)); // ["deep", "deep.counter"]
 
 // Check if data contains a reference
@@ -66,8 +66,9 @@ Returns if the provided data contains the provided reference as a parameter.
 
 #### Parameters
 
--   `target` **[Data][12]** Target [Data][1] instance to check if it contains the reference.
+-   `target`  
 -   `ref` **[string][13]** Reference to search for.
+-   `source` **[Data][12]** Class instance to check if it contains the reference.
 
 Returns **[boolean][14]** Returns `true` if the provided data contains the provided reference.
 

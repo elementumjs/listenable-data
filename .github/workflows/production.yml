@@ -1,8 +1,8 @@
 name: production
 on:
   push:
-    branches:
-      - master
+    tags:
+      - v*.*.*
 jobs:
   test:
     runs-on: ubuntu-latest

@@ -2,24 +2,24 @@
 
 # `listenable-data`
 
-![production](https://github.com/elementumjs/listenable-data/workflows/production/badge.svg)
-![develop](https://github.com/elementumjs/listenable-data/workflows/develop/badge.svg)
-![package_version](https://img.shields.io/github/package-json/v/elementumjs/listenable-data)
-[![reference](https://img.shields.io/badge/docs-REFERENCE-blue)][1]
-![license](https://img.shields.io/github/license/elementumjs/listenable-data)
+[![production](https://github.com/elementumjs/listenable-data/workflows/production/badge.svg)][1]
+[![develop](https://github.com/elementumjs/listenable-data/workflows/develop/badge.svg)][2]
+[![package_version](https://img.shields.io/github/package-json/v/elementumjs/listenable-data)][3]
+[![reference](https://img.shields.io/badge/docs-REFERENCE-blue)][4]
+[![license](https://img.shields.io/github/license/elementumjs/listenable-data)][5]
 
 
 Data structure to listen for deep changes into objects' attributes.
 
-- [`listenable-data`][2]
-    - [Add Github Packages to your registry][3]
-    - [Installation][4]
-    - [Import][5]
-      - [HTML `<script>` tag][6]
-      - [JavaScript `import`][7]
-      - [Node `require`][8]
-    - [Listen for a change][9]
-      - [Example][10]
+- [`listenable-data`][6]
+    - [Add Github Packages to your registry][7]
+    - [Installation][8]
+    - [Import][9]
+      - [HTML `<script>` tag][10]
+      - [JavaScript `import`][11]
+      - [Node `require`][12]
+    - [Listen for a change][13]
+      - [Example][14]
 
 ---
 
@@ -98,22 +98,30 @@ Install via `npm`:
 
 [0]: assets/header.png
 
-[1]: REFERENCE.md
+[1]: https://github.com/elementumjs/listenable-data/actions?query=workflow%3Aproduction
 
-[2]: #listenable-data
+[2]: https://github.com/elementumjs/listenable-data/actions?query=workflow%3Adevelop
 
-[3]: #add-github-packages-to-your-registry
+[3]: https://github.com/elementumjs/listenable-data/packages/
 
-[4]: #installation
+[4]: REFERENCE.md
 
-[5]: #import
+[5]: LICENSE
 
-[6]: #html-script-tag
+[6]: #listenable-data
 
-[7]: #javascript-import
+[7]: #add-github-packages-to-your-registry
 
-[8]: #node-require
+[8]: #installation
 
-[9]: #listen-for-a-change
+[9]: #import
 
-[10]: #example 
+[10]:#html-script-tag 
+
+[11]:#javascript-import 
+
+[12]:#node-require 
+
+[13]:#listen-for-a-change 
+
+[14]: #example 
