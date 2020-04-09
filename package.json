@@ -8,9 +8,10 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
-  "directories": {
-    "lib": "lib"
-  },
+  "files": [
+    "lib/*.js",
+    "dist/*.js"
+  ],
   "scripts": {
     "test": "jest test/*",
     "build": "NODE_ENV=production rollup -c build/rollup.config.js",
