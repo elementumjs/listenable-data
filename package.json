@@ -1,6 +1,6 @@
 {
   "name": "@elementumjs/listenable-data",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Data structure to listen for deep changes into objects' attributes.",
   "main": "dist/listenable-data.cjs.js",
   "module": "dist/listenable-data.esm.js",
