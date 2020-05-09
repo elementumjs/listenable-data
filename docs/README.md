@@ -101,7 +101,7 @@ Checkout other import methods in [`dist/README.md`](https://github.com/elementum
 
 [3]: https://github.com/elementumjs/listenable-data/packages/
 
-[4]: docs/globals.md
+[4]: globals.md
 
 [5]: LICENSE
 

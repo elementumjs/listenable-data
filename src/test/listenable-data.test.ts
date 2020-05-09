@@ -1,29 +1,16 @@
-import Data from "../lib/listenable-data.js";
+import Data from "../lib/listenable-data";
 
 test("Data.constructor", () => {
     const fn = () => {};
 
-    // Type tests for raise an error with wrong `target` param
-    try { new Data(0, fn) } catch (e) { expect(e).toBeInstanceOf(TypeError) }
-    try { new Data("", fn) } catch (e) { expect(e).toBeInstanceOf(TypeError) }
-    try { new Data(true, fn) } catch (e) { expect(e).toBeInstanceOf(TypeError) }
-    try { new Data(fn, fn) } catch (e) { expect(e).toBeInstanceOf(TypeError) }
-
-    // Type tests for raise an error with wrong `handler` param
-    try { new Data({}, 0) } catch (e) { expect(e).toBeInstanceOf(TypeError) }
-    try { new Data({}, "") } catch (e) { expect(e).toBeInstanceOf(TypeError) }
-    try { new Data({}, true) } catch (e) { expect(e).toBeInstanceOf(TypeError) }
-    try { new Data({}, []) } catch (e) { expect(e).toBeInstanceOf(TypeError) }
-    try { new Data({}, {}) } catch (e) { expect(e).toBeInstanceOf(TypeError) }
-
     // Type tests for check if result object has the same keys/indexes and 
     // values that the target one. 
     expect(
-        new Data({ attr: true }, fn).attr
+        Data.create({ attr: true }, fn)["attr"]
     ).toBe(true);
 
     expect(
-        new Data([ true ], fn)[0]
+        Data.create([ true ], fn)[0]
     ).toBe(true);
 });
 
@@ -32,7 +19,7 @@ test("Data.refs", () => {
 
     // Checks deeply references format
     expect(
-        Data.refs(new Data(
+        Data.refs(Data.create(
             {
                 level1: {
                     level2a: {
@@ -54,7 +41,7 @@ test("Data.refs", () => {
 
     // Checks deeply references order
     expect(
-        Data.refs(new Data(
+        Data.refs(Data.create(
             {
                 level1: {
                     level2b: true,
@@ -76,7 +63,7 @@ test("Data.refs", () => {
 });
 
 test("Data.contains", () => {
-    let data = new Data({
+    let data = Data.create({
         level1: {
             level2a: {
                 level3a: true,
@@ -108,7 +95,7 @@ test("Data class base functionality", () => {
         expect(last).toBe(counter === 0 ? counter : counter -1);
     }
 
-    let data = new Data({
+    let data = Data.create({
         level1: {
             level2a: {
                 level3a: {
@@ -121,14 +108,14 @@ test("Data class base functionality", () => {
     }, listener);
 
     // Checks that a not existing reference returns undefined
-    expect(data.level3a).toBeUndefined();
+    expect(data["level3a"]).toBeUndefined();
 
     // Checks the initial value of counter
-    expect(data.level1.level2a.level3a.counter).toBe(0);
+    expect(data["level1"]["level2a"]["level3a"]["counter"]).toBe(0);
 
     for (counter; counter < 10; counter++)
-        data.level1.level2a.level3a.counter = counter;
+        data["level1"]["level2a"]["level3a"]["counter"] = counter;
 
     // Checks the final value of counter
-    expect(data.level1.level2a.level3a.counter).toBe(9);
+    expect(data["level1"]["level2a"]["level3a"]["counter"]).toBe(9);
 });
