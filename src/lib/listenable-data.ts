@@ -5,15 +5,13 @@
 const REF_DELIMITER: string = ".";
 
 /**
- * Listener function to call when target data changes.
- * @name DataListener
- * @function
- * @param {String} ref Rerence path of changed object attribute.
- * @param {*} value Newest value of object attribute.
- * @param {*} last  Last value of object attribute.
+ * Listener function to listen target property changes.
+ * @param {*} value Newest value of target property.
+ * @param {*} last  Last value of target property.
+ * @void
  */
-interface DataListener {
-    (ref: string, value: any, last: any);
+interface Listener {
+    (value: any, last: any);
 }
 
 /**
@@ -22,26 +20,58 @@ interface DataListener {
  */
 class Data {
     /**
-     * Creates a observable object based on the target object provided. If any
-     * object property changes, the listener provided will be executed.
-     * @param {Object} target - The original object to listen to.
-     * @param {DataListener} listener - listener function to call when target 
-     * data changes.
+     * ::listeners property stores the registered listeners associated to its
+     * properties.
+     * @ignore
      */
-    static create(target: object, listener: DataListener): object {
-        return Data._observable(target, listener);
+    private "::listeners": object = {};
+
+    /**
+     * Constructor envolves the target object into a {@link Wrap} to allow to
+     * listen by property and then make it observable.
+     * @param {Object} target - The original object to listen to.
+     */
+    constructor(target: object) {
+        const self = Object.assign(this, target);
+        return this._observable() as Data;
+    }
+
+    /**
+     * listen function registers a change listener function for a data source 
+     * property by the provided refenrence.
+     * @param {string} ref - The reference to register the listener.
+     * @param {Listener} listener - Function to listen a property change
+     */
+    listen(ref: string, listener: Listener) {
+        this["::listeners"][ref] = listener;
+    }
+
+    /**
+     * dismiss function unregister a listener for a data source property by the 
+     * provided reference.
+     * @param {string} ref - The reference to unregister the listener.
+     */
+    dismiss(ref: string) {
+        delete this["::listeners"][ref];
+    }
+
+    /**
+     * Returns if the current data contains the provided reference.
+     * @param {string} ref Reference to search for.
+     * @returns {boolean} - Returns `true` if the provided data contains the 
+     * provided reference.
+     */
+    public contains(ref: string): boolean {
+        return this.refs().includes(ref);
     }
 
     /**
      * Returns a list of attributes references nested. For example, if the data 
      * target has the following definition `{ attr1: { attr2: false }}`, the 
      * function returns [ "attr1", "attr1.attr2" ]. 
-     * @static
-     * @param {Data} target Target {@link Data} instance to retrive its 
-     * attributes references.
      * @returns {[]string} - List of attributes references.
      */
-    static refs(target: Data): Array<string> {
+    public refs(): Array<string> {
         const getAttrs = (obj: object) => {
             const res: Array<Array<string>> = [];
 
@@ -49,6 +79,8 @@ class Data {
             const { length } = keys;
             for (let i = 0; i < length; i++) {
                 const attr: string = keys[i];
+                if (attr.startsWith("::")) continue;
+
                 const value: any = obj[attr];
                 res.push([ attr ]);
 
@@ -64,7 +96,7 @@ class Data {
         }
 
         const result: Array<string> = [];
-        const attrs: Array<Array<string>> = getAttrs(target);
+        const attrs: Array<Array<string>> = getAttrs(this);
         const { length } = attrs;
         for (let i = 0; i < length; i++) result.push(attrs[i].join(REF_DELIMITER));
 
@@ -72,35 +104,31 @@ class Data {
     }
 
     /**
-     * Returns if the provided data contains the provided reference as a 
-     * parameter.
-     * @static
-     * @param {Data} source Class instance to check if it contains the 
-     * reference.
-     * @param {string} ref Reference to search for.
-     * @returns {boolean} - Returns `true` if the provided data contains the 
-     * provided reference.
+     * Handler function to listen target properties changes.
+     * @param {string} ref - The reference of the changed property.
+     * @param {*} value - Newest value of target property.
+     * @param {*} last - Last value of target property.
+     * @ignore
      */
-    static contains(source: Data, ref: string): boolean {
-        return this.refs(source).includes(ref);
+    private _handler(ref: string, value: any, last: any) {
+        if (Object.prototype.hasOwnProperty.call(this["::listeners"], ref)) {
+            this["::listeners"][ref](value, last);
+        }
     }
 
     /**
      * Creates a Proxy with a recursive handler that creates more nested Proxy
-     * if deep object properties are objects. 
-     * @static
-     * @param {Object} source - The original object to listen to.
-     * @param {DataListener} listener - listener function to call when target 
-     * data changes.
-     * @returns {Proxy} Proxy handler.
+     * if other deep properties are objects. 
+     * @returns {object} Proxy handler.
      * @ignore
      */
-    static _observable(source: object, listener: DataListener): object {
-        let self = this;
+    private _observable(): object {
+        const self = this
         let handler = (refs: Array<string> = []) => {
             return {
                 get(target: object, ref: string, receiver: object) {
                     try {
+                        if (ref.startsWith("::")) throw null;
                         return new Proxy(target[ref], handler([...refs, ref]));
                     } catch (err) {
                         return Reflect.get(target, ref, receiver);
@@ -111,13 +139,13 @@ class Data {
                     const currentValue: any = descriptor.value;
                     const lastValue: any = target[ref];
               
-                    listener.call(self, currentRefs, currentValue, lastValue);
+                    self._handler.call(self, currentRefs, currentValue, lastValue);
                     return Reflect.defineProperty(target, ref, descriptor);
                   }
             }
         }
 
-        return new Proxy(source, handler());
+        return new Proxy(self, handler());
     }
 }
 

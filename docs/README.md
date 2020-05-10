@@ -1,3 +1,6 @@
+
+# @elementumjs/listenable-data
+
 <img src="https://raw.githubusercontent.com/elementumjs/listenable-data/master/assets/header.png"/>
 
 [![production](https://github.com/elementumjs/listenable-data/workflows/production/badge.svg)][1]
@@ -21,11 +24,10 @@
 ### How to use it
 
 1. Define initial data object.
-2. Define change listener that receives three parameters:
-    - `ref`: With the reference of attribute changed.
+2. Create the listenable object with your initial data as seed.
+3. Register a listener to any property that receives:
     - `value`: Current value of attribute after the change.
     - `last`: Last value of the attribute.
-3. Call `Data.create` function over the defined object and the listener.
 4. Trigger a change.
 
 ```javascript
@@ -36,21 +38,20 @@
         deep: {
             counter: 0
         }
-    });
-
-    // [2] Define change listener
-    const changeListener = (ref, value, last) => {
-        console.log(ref, value, last);
     }
 
-    // [3] Call `Data.create` function over the defined object and the listener
-    const data = Data.create(intialData, changeListener);
+    // [2] Create the listenable object
+    const data = new Data(initialData);
+    console.log(data.refs()); // ["deep", "deep.counter"]
 
-    console.log(Data.refs(data)); // ["deep", "deep.counter"]
-    console.log(Data.contains(data, 'deep.counter')); // true
+    // [3] Register a listener
+    console.log(data.contains("deep.counter")); // true
+    data.listen("deep.counter", (value, last) => {
+        console.log(value, last);
+    });
 
     // [4] Trigger a change
-    data.deep.counter++; // 'deep.counter', 1, 0
+    data.deep.counter++; // 1 0
 ```
 
 <img src="https://raw.githubusercontent.com/elementumjs/template/develop/assets/installation.svg"/>
@@ -62,7 +63,7 @@
 Import from [jsDelivr CDN](https://www.jsdelivr.com/):
 
 ```javascript
-    import { html, render } from "https://cdn.jsdelivr.net/gh/elementumjs/listenable-data/dist/listenable-data.esm.js";
+    import Data from "https://cdn.jsdelivr.net/gh/elementumjs/listenable-data/dist/listenable-data.esm.js";
 ```
 
 #### Or install the package locally

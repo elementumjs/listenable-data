@@ -21,7 +21,7 @@
 ```javascript
     // ...
 
-    const data = Data.create(source, listener);
+    const data = new Data(source);
 ```
 
 #### CommonJS
@@ -41,7 +41,7 @@
 
     // ...
 
-    const data = Data.create(source, listener);
+    const data = new Data(source);
 ```
 
 #### ES Module
@@ -61,7 +61,7 @@
 
     // ...
 
-    const data = Data.create(source, listener);
+    const data = new Data(source);
 ```
 
 ### Install locally

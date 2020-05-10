@@ -10,28 +10,46 @@ listener to execute if the target object changes.
 
 ## Index
 
+### Constructors
+
+* [constructor](data.md#constructor)
+
 ### Methods
 
-* [contains](data.md#static-contains)
-* [create](data.md#static-create)
-* [refs](data.md#static-refs)
+* [contains](data.md#contains)
+* [dismiss](data.md#dismiss)
+* [listen](data.md#listen)
+* [refs](data.md#refs)
 
-## Methods
+## Constructors
 
-### `Static` contains
+###  constructor
 
-▸ **contains**(`source`: [Data](data.md), `ref`: string): *boolean*
+\+ **new Data**(`target`: object): *[Data](data.md)*
 
-Returns if the provided data contains the provided reference as a
-parameter.
-
-**`static`** 
+Constructor envolves the target object into a {@link Wrap} to allow to
+listen by property and then make it observable.
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`source` | [Data](data.md) | Class instance to check if it contains the reference. |
+`target` | object | The original object to listen to.  |
+
+**Returns:** *[Data](data.md)*
+
+## Methods
+
+###  contains
+
+▸ **contains**(`ref`: string): *boolean*
+
+Returns if the current data contains the provided reference.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
 `ref` | string | Reference to search for. |
 
 **Returns:** *boolean*
@@ -41,39 +59,48 @@ provided reference.
 
 ___
 
-### `Static` create
+###  dismiss
 
-▸ **create**(`target`: object, `listener`: [DataListener](../interfaces/datalistener.md)): *object*
+▸ **dismiss**(`ref`: string): *void*
 
-Creates a observable object based on the target object provided. If any
-object property changes, the listener provided will be executed.
+dismiss function unregister a listener for a data source property by the
+provided reference.
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`target` | object | The original object to listen to. |
-`listener` | [DataListener](../interfaces/datalistener.md) | listener function to call when target data changes.  |
+`ref` | string | The reference to unregister the listener.  |
 
-**Returns:** *object*
+**Returns:** *void*
 
 ___
 
-### `Static` refs
+###  listen
 
-▸ **refs**(`target`: [Data](data.md)): *Array‹string›*
+▸ **listen**(`ref`: string, `listener`: [Listener](../interfaces/listener.md)): *void*
+
+listen function registers a change listener function for a data source
+property by the provided refenrence.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`ref` | string | The reference to register the listener. |
+`listener` | [Listener](../interfaces/listener.md) | Function to listen a property change  |
+
+**Returns:** *void*
+
+___
+
+###  refs
+
+▸ **refs**(): *Array‹string›*
 
 Returns a list of attributes references nested. For example, if the data
 target has the following definition `{ attr1: { attr2: false }}`, the
 function returns [ "attr1", "attr1.attr2" ].
-
-**`static`** 
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`target` | [Data](data.md) | Target [Data](data.md) instance to retrive its attributes references. |
 
 **Returns:** *Array‹string›*
 

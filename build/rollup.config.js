@@ -1,44 +1,24 @@
-import pkg from '../package.json';
-import babel from 'rollup-plugin-babel';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import { uglify } from "rollup-plugin-uglify";
+import pkg from "../package.json";
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import typescript from "@rollup/plugin-typescript";
+import { terser } from "rollup-plugin-terser";
 
-let isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === "production";
 
 export default [
 	{
-		input: 'lib/listenable-data.js',
+		input: "src/listenable-data.ts",
 		output: [
-			{ file: pkg.browser, format: 'umd', name: 'Data' },
-			{ file: pkg.main, format: 'cjs' },
+			{ file: pkg.browser, format: "umd", name: "Data", exports: "named" },
+			{ file: pkg.main, format: "cjs", exports: "named" },
+			{ file: pkg.module, format: "es", exports: "named" },
 		],
 		plugins: [
-			resolve(),
-			babel({
-				exclude: 'node_modules/**',
-				runtimeHelpers: true,
-				presets: [["@babel/preset-env"]],
-				plugins: [['@babel/transform-runtime', { useESModules: true }]],
-				babelrc: false
-			}),
+			typescript({ tsconfig: "./build/tsconfig.json" }),
+			resolve({ jsnext: true }),
 			commonjs(),
-			isProd && uglify()
-		]
-	},
-	{
-		input: 'lib/listenable-data.js',
-		output: [
-			{ file: pkg.module, format: 'es' }
-		],
-		plugins: [
-			resolve(),
-			babel({
-				exclude: 'node_modules/**',
-				presets: [["@babel/preset-env"]],
-				babelrc: false
-			}),
-			commonjs()
+			isProd && terser()
 		]
 	}
 ];

@@ -1,37 +1,30 @@
 import Data from "../lib/listenable-data";
 
 test("Data.constructor", () => {
-    const fn = () => {};
-
     // Type tests for check if result object has the same keys/indexes and 
     // values that the target one. 
     expect(
-        Data.create({ attr: true }, fn)["attr"]
+        new Data({ attr: true })["attr"]
     ).toBe(true);
 
     expect(
-        Data.create([ true ], fn)[0]
+        new Data([ true ])[0]
     ).toBe(true);
 });
 
 test("Data.refs", () => {
-    const fn = () => {};
+    const d1 = new Data({
+        level1: {
+            level2a: {
+                level3a: true,
+                level3b: true
+            },
+            level2b: true
+        }
+    });
 
     // Checks deeply references format
-    expect(
-        Data.refs(Data.create(
-            {
-                level1: {
-                    level2a: {
-                        level3a: true,
-                        level3b: true
-                    },
-                    level2b: true
-                }
-            },
-            fn
-        ))
-    ).toStrictEqual([
+    expect(d1.refs()).toStrictEqual([
         "level1",
         "level1.level2a",
         "level1.level2a.level3a",
@@ -39,21 +32,18 @@ test("Data.refs", () => {
         "level1.level2b"
     ]);
 
+    const d2 = new Data({
+        level1: {
+            level2b: true,
+            level2a: {
+                level3b: true,
+                level3a: true
+            }
+        }
+    });
+
     // Checks deeply references order
-    expect(
-        Data.refs(Data.create(
-            {
-                level1: {
-                    level2b: true,
-                    level2a: {
-                        level3b: true,
-                        level3a: true
-                    }
-                }
-            },
-            fn
-        ))
-    ).toStrictEqual([
+    expect(d2.refs()).toStrictEqual([
         "level1",
         "level1.level2b",
         "level1.level2a",
@@ -63,7 +53,7 @@ test("Data.refs", () => {
 });
 
 test("Data.contains", () => {
-    let data = Data.create({
+    const data = new Data({
         level1: {
             level2a: {
                 level3a: true,
@@ -71,31 +61,26 @@ test("Data.contains", () => {
             },
             level2b: true
         }
-    }, () => {});
+    });
 
     // Checks references that must to have been contained
-    expect(Data.contains(data, "level1")).toBeTruthy();
-    expect(Data.contains(data, "level1.level2a")).toBeTruthy();
-    expect(Data.contains(data, "level1.level2b")).toBeTruthy();
-    expect(Data.contains(data, "level1.level2a.level3a")).toBeTruthy();
-    expect(Data.contains(data, "level1.level2a.level3b")).toBeTruthy();
+    expect(data.contains("level1")).toBeTruthy();
+    expect(data.contains("level1.level2a")).toBeTruthy();
+    expect(data.contains("level1.level2b")).toBeTruthy();
+    expect(data.contains("level1.level2a.level3a")).toBeTruthy();
+    expect(data.contains("level1.level2a.level3b")).toBeTruthy();
 
     // Checks references that must to not have been contained
-    expect(Data.contains(data, "level2")).not.toBeTruthy();
-    expect(Data.contains(data, "level2a")).not.toBeTruthy();
-    expect(Data.contains(data, "level3b")).not.toBeTruthy();
+    expect(data.contains("level2")).not.toBeTruthy();
+    expect(data.contains("level2a")).not.toBeTruthy();
+    expect(data.contains("level3b")).not.toBeTruthy();
 });
 
 test("Data class base functionality", () => {
     // Checks the counter changes updating it into a loop
     let counter = 0;
-    let listener = (ref, value, last) => {
-        expect(ref).toBe("level1.level2a.level3a.counter");
-        expect(value).toBe(counter);
-        expect(last).toBe(counter === 0 ? counter : counter -1);
-    }
-
-    let data = Data.create({
+    
+    const data = new Data({
         level1: {
             level2a: {
                 level3a: {
@@ -105,7 +90,18 @@ test("Data class base functionality", () => {
             },
             level2b: true
         }
-    }, listener);
+    });
+
+    const listener = (value, last) => {
+        expect(value).toBe(counter);
+        expect(last).toBe(counter === 0 ? counter : counter -1);
+    }
+    data.listen("level1.level2a.level3a.counter", listener);
+
+    data.listen("test", listener);
+    expect(data["::listeners"]["test"]).toBe(listener);
+    data.dismiss("test");
+    expect(data["::listeners"]["test"]).toBe(undefined);
 
     // Checks that a not existing reference returns undefined
     expect(data["level3a"]).toBeUndefined();
