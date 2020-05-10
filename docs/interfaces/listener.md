@@ -11,7 +11,7 @@ Listener function to listen target property changes.
 
 ## Callable
 
-▸ (`value`: any, `last`: any): *any*
+▸ (`value`: any, `last`: any, `ref?`: string): *any*
 
 Listener function to listen target property changes.
 
@@ -23,5 +23,6 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `value` | any | Newest value of target property. |
 `last` | any | Last value of target property. |
+`ref?` | string | Newest value of target property. |
 
 **Returns:** *any*

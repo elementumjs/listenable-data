@@ -8,10 +8,11 @@ const REF_DELIMITER: string = ".";
  * Listener function to listen target property changes.
  * @param {*} value Newest value of target property.
  * @param {*} last  Last value of target property.
+ * @param {string=} ref Newest value of target property.
  * @void
  */
 interface Listener {
-    (value: any, last: any);
+    (value: any, last: any, ref?: string);
 }
 
 /**
@@ -27,12 +28,12 @@ class Data {
     private "::listeners": object = {};
 
     /**
-     * Constructor envolves the target object into a {@link Wrap} to allow to
-     * listen by property and then make it observable.
-     * @param {Object} target - The original object to listen to.
+     * Constructor envolves the source object into the current instance of
+     * {@link Data} to allow to listen by property and then make it observable.
+     * @param {Object} source - The original object to listen to.
      */
-    constructor(target: object) {
-        const self = Object.assign(this, target);
+    constructor(source: object) {
+        Object.assign(this, source);
         return this._observable() as Data;
     }
 
@@ -47,12 +48,35 @@ class Data {
     }
 
     /**
-     * dismiss function unregister a listener for a data source property by the 
-     * provided reference.
+     * listenAll function registers a global listener function for any data 
+     * source property.
+     * @param {Listener} listener - Function to listen an any property change.
+     */
+    listenAll(listener: Listener) {
+        this["::listeners"]["*"] = listener;
+    }
+
+    /**
+     * dismiss function unregisters a listener for the source data property 
+     * referenced by the provided reference. If provided reference has not any 
+     * listener registered the function throws an error.
      * @param {string} ref - The reference to unregister the listener.
      */
     dismiss(ref: string) {
-        delete this["::listeners"][ref];
+        if (Object.prototype.hasOwnProperty.call(this["::listeners"], ref)) {
+            delete this["::listeners"][ref];
+        } else throw new Error("the reference provided has not any listener registered.")
+    }
+
+    /**
+     * dismiss function unregisters a global listener from the source data. If 
+     * the source data has not any global listener registered the function 
+     * throws an error.
+     */
+    dismissAll() {
+        if (Object.prototype.hasOwnProperty.call(this["::listeners"], "*")) {
+            delete this["::listeners"]["*"];
+        } else throw new Error("listenable data has not any global listener registered.")
     }
 
     /**
@@ -112,7 +136,13 @@ class Data {
      */
     private _handler(ref: string, value: any, last: any) {
         if (Object.prototype.hasOwnProperty.call(this["::listeners"], ref)) {
-            this["::listeners"][ref](value, last);
+            const fn = this["::listeners"][ref];
+            fn(value, last);
+        }
+
+        if (Object.prototype.hasOwnProperty.call(this["::listeners"], "*")) {
+            const fn = this["::listeners"]["*"];
+            fn(value, last, ref);
         }
     }
 

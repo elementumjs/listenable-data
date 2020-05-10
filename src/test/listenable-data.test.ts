@@ -76,7 +76,7 @@ test("Data.contains", () => {
     expect(data.contains("level3b")).not.toBeTruthy();
 });
 
-test("Data class base functionality", () => {
+test("Single data property listener", () => {
     // Checks the counter changes updating it into a loop
     let counter = 0;
     
@@ -105,6 +105,45 @@ test("Data class base functionality", () => {
 
     // Checks that a not existing reference returns undefined
     expect(data["level3a"]).toBeUndefined();
+
+    // Checks the initial value of counter
+    expect(data["level1"]["level2a"]["level3a"]["counter"]).toBe(0);
+
+    for (counter; counter < 10; counter++)
+        data["level1"]["level2a"]["level3a"]["counter"] = counter;
+
+    // Checks the final value of counter
+    expect(data["level1"]["level2a"]["level3a"]["counter"]).toBe(9);
+});
+
+test("Global data listener", () => {
+    // Checks the counter changes updating it into a loop
+    let counter = 0;
+    
+    const data = new Data({
+        level1: {
+            level2a: {
+                level3a: {
+                    counter: counter
+                },
+                level3b: true
+            },
+            level2b: true
+        }
+    });
+
+    const listener = (value, last, ref) => {
+        expect(value).toBe(counter);
+        expect(last).toBe(counter === 0 ? counter : counter - 1);
+        expect(ref).toBe("level1.level2a.level3a.counter");
+    }
+    
+    data.listenAll(listener);
+    expect(data["::listeners"]["*"]).toBe(listener);
+    data.dismissAll();
+    expect(data["::listeners"]["*"]).toBe(undefined);
+
+    data.listenAll(listener);
 
     // Checks the initial value of counter
     expect(data["level1"]["level2a"]["level3a"]["counter"]).toBe(0);

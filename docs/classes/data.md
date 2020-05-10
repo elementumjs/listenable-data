@@ -18,23 +18,25 @@ listener to execute if the target object changes.
 
 * [contains](data.md#contains)
 * [dismiss](data.md#dismiss)
+* [dismissAll](data.md#dismissall)
 * [listen](data.md#listen)
+* [listenAll](data.md#listenall)
 * [refs](data.md#refs)
 
 ## Constructors
 
 ###  constructor
 
-\+ **new Data**(`target`: object): *[Data](data.md)*
+\+ **new Data**(`source`: object): *[Data](data.md)*
 
-Constructor envolves the target object into a {@link Wrap} to allow to
-listen by property and then make it observable.
+Constructor envolves the source object into the current instance of
+[Data](data.md) to allow to listen by property and then make it observable.
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`target` | object | The original object to listen to.  |
+`source` | object | The original object to listen to.  |
 
 **Returns:** *[Data](data.md)*
 
@@ -63,14 +65,27 @@ ___
 
 ▸ **dismiss**(`ref`: string): *void*
 
-dismiss function unregister a listener for a data source property by the
-provided reference.
+dismiss function unregisters a listener for the source data property
+referenced by the provided reference. If provided reference has not any
+listener registered the function throws an error.
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `ref` | string | The reference to unregister the listener.  |
+
+**Returns:** *void*
+
+___
+
+###  dismissAll
+
+▸ **dismissAll**(): *void*
+
+dismiss function unregisters a global listener from the source data. If
+the source data has not any global listener registered the function
+throws an error.
 
 **Returns:** *void*
 
@@ -89,6 +104,23 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `ref` | string | The reference to register the listener. |
 `listener` | [Listener](../interfaces/listener.md) | Function to listen a property change  |
+
+**Returns:** *void*
+
+___
+
+###  listenAll
+
+▸ **listenAll**(`listener`: [Listener](../interfaces/listener.md)): *void*
+
+listenAll function registers a global listener function for any data
+source property.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`listener` | [Listener](../interfaces/listener.md) | Function to listen an any property change.  |
 
 **Returns:** *void*
 

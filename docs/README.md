@@ -1,7 +1,4 @@
-
-# @elementumjs/listenable-data
-
-<img src="https://raw.githubusercontent.com/elementumjs/listenable-data/master/assets/header.png"/>
+<img src="https://raw.githubusercontent.com/elementumjs/listenable-data/master/assets/header.svg"/>
 
 [![production](https://github.com/elementumjs/listenable-data/workflows/production/badge.svg)][1]
 [![develop](https://github.com/elementumjs/listenable-data/workflows/develop/badge.svg)][2]
@@ -12,10 +9,13 @@
 `@elementumjs/listenable-data` is a data structure to listen for deep changes into objects' attributes.
 
 - [📝 How to use it][6]
-- [⚙️ Installation][7]
-  - [Import from CDN as ES Module][8]
-  - [Or install the package locally][9]
-  - [Other import methods][10]
+  - [Set a single listener][7]
+  - [Set a global listener][8]
+  - [Other features][9]
+- [⚙️ Installation][10]
+  - [Import from CDN as ES Module][11]
+  - [Or install the package locally][12]
+  - [Other import methods][13]
 
 ---
 
@@ -23,35 +23,97 @@
 
 ### How to use it
 
-1. Define initial data object.
-2. Create the listenable object with your initial data as seed.
-3. Register a listener to any property that receives:
+#### Set a single listener
+
+To listen for a single property change follow the following steps:
+
+1. Define initial data object and create the listenable object with it.
+2. Register a listener to any property that receives:
     - `value`: Current value of attribute after the change.
     - `last`: Last value of the attribute.
-4. Trigger a change.
+3. Trigger a change.
+4. *(optional)* Dismiss the listener to stop listening.
 
 ```javascript
     import Data from '@elementumjs/listenable-data';
 
-    // [1] Define initial data object
-    const initialData = {
+    // [1] Define initial data object and create the listenable object
+    const data = new Data({
         deep: {
             counter: 0
         }
-    }
-
-    // [2] Create the listenable object
-    const data = new Data(initialData);
-    console.log(data.refs()); // ["deep", "deep.counter"]
-
-    // [3] Register a listener
-    console.log(data.contains("deep.counter")); // true
-    data.listen("deep.counter", (value, last) => {
-        console.log(value, last);
     });
 
-    // [4] Trigger a change
+    // [2] Register a listener
+    data.listen("deep.counter", (value, last) => console.log(value, last));
+
+    // [3] Trigger a change
     data.deep.counter++; // 1 0
+
+    // [4] Dismiss the listener
+    data.dismiss("deep.counter");
+```
+
+#### Global listener
+
+Also is possible to listen for any propery change:
+
+1. Define initial data object and create the listenable object with it.
+2. Register a listener to any property that receives:
+    - `value`: Current value of attribute after the change.
+    - `last`: Last value of the attribute.
+    - `ref`: The property reference.
+3. Trigger a change.
+4. *(optional)* Dismiss the global listener to stop listening.
+
+```javascript
+    import Data from '@elementumjs/listenable-data';
+
+    // [1] Define initial data object and create the listenable object
+    const data = new Data({
+        deep: {
+            counter: 0
+        }
+    });
+
+    // [2] Register a listener
+    data.listenAll((value, last, ref) => console.log(value, last, ref));
+
+    // [3] Trigger a change
+    data.deep.counter++; // 1 0 "deep.counter"
+
+    // [4] Dismiss the listener
+    data.dismissAll();
+```
+
+#### Other features
+
+##### Check if single property is already defined
+
+```javascript
+    // Define initial data object and create the listenable object
+    const data = new Data({
+        deep: {
+            counter: 0
+        }
+    });
+
+    // Print if source data contains a single reference
+    console.log(data.contains("deep.counter")) // true
+```
+
+##### Get defined references
+
+```javascript
+    // Define initial data object and create the listenable object
+    const data = new Data({
+        deep: {
+            counter: 0
+        }
+    });
+
+    // Print if source data contains a single reference
+    console.log(data.refs()) // ["deep", "deep.counter"]
 ```
 
 <img src="https://raw.githubusercontent.com/elementumjs/template/develop/assets/installation.svg"/>
@@ -108,10 +170,16 @@ Checkout other import methods in [`dist/README.md`](https://github.com/elementum
 
 [6]: #how-to-use-it
 
-[7]: #installation
+[7]: #set-a-single-listener
 
-[8]: #import-from-cdn-as-es.module
+[8]: #set-a-global-listener
 
-[9]: #or-install-the-package-locally
+[9]: #other-features
 
-[10]: #other-import-methods
+[10]: #installation
+
+[11]: #import-from-cdn-as-es.module
+
+[12]: #or-install-the-package-locally
+
+[13]: #other-import-methods
