@@ -169,8 +169,9 @@ class Data {
                     const currentValue: any = descriptor.value;
                     const lastValue: any = target[ref];
               
+                    const result = Reflect.defineProperty(target, ref, descriptor);
                     self._handler.call(self, currentRefs, currentValue, lastValue);
-                    return Reflect.defineProperty(target, ref, descriptor);
+                    return result;
                   }
             }
         }
