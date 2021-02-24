@@ -2,7 +2,7 @@
 
 [![production](https://github.com/elementumjs/listenable-data/workflows/production/badge.svg)][1]
 [![develop](https://github.com/elementumjs/listenable-data/workflows/develop/badge.svg)][2]
-[![package_version](https://img.shields.io/github/package-json/v/elementumjs/listenable-data)][3]
+[![package_version](https://img.shields.io/npm/v/@elementumjs/listenable-data)][3]
 [![reference](https://img.shields.io/badge/docs-REFERENCE-blue)][4]
 [![license](https://img.shields.io/github/license/elementumjs/listenable-data)][5]
 
@@ -154,7 +154,7 @@ Checkout other import methods in [`dist/README.md`](https://github.com/elementum
 
 [2]: https://github.com/elementumjs/listenable-data/actions?query=workflow%3Adevelop
 
-[3]: https://github.com/elementumjs/listenable-data/packages/
+[3]: https://www.npmjs.com/package/@elementumjs/listenable-data
 
 [4]: docs/globals.md
 
