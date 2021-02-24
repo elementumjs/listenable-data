@@ -64,20 +64,10 @@
     const data = new Data(source);
 ```
 
-### Install locally
-
-#### Add Github Packages to your registry
-
-Create or edit the `.npmrc` file in the same directory as your `package.json` and include the following line:
-
-```
-    registry=https://npm.pkg.github.com/elementumjs
-```
-
-#### Download the package
+### Download locally
 
 Install via `npm`:
 
 ```sh
-    npm install @elementumjs/listenable-data
+    npm install @elementumjs/template
 ```
