@@ -69,5 +69,5 @@
 Install via `npm`:
 
 ```sh
-    npm install @elementumjs/template
+    npm install @elementumjs/listenable-data
 ```
