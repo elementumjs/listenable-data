@@ -99,9 +99,9 @@ test("Single data property listener", () => {
     data.listen("level1.level2a.level3a.counter", listener);
 
     data.listen("test", listener);
-    expect(data["::listeners"]["test"]).toBe(listener);
+    expect(data["::listeners"]["test"]).toMatchObject([ listener ]);
     data.dismiss("test");
-    expect(data["::listeners"]["test"]).toBe(undefined);
+    expect(data["::listeners"]["test"]).toMatchObject([]);
 
     // Checks that a not existing reference returns undefined
     expect(data["level3a"]).toBeUndefined();
@@ -139,9 +139,9 @@ test("Global data listener", () => {
     }
     
     data.listenAll(listener);
-    expect(data["::listeners"]["*"]).toBe(listener);
+    expect(data["::listeners"]["*"]).toMatchObject([listener]);
     data.dismissAll();
-    expect(data["::listeners"]["*"]).toBe(undefined);
+    expect(data["::listeners"]["*"]).toMatchObject([]);
 
     data.listenAll(listener);
 

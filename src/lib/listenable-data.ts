@@ -37,14 +37,24 @@ class Data {
         return this._observable() as Data;
     }
 
+    private isRegistered(ref: string): boolean {
+        return Object.prototype.hasOwnProperty.call(this["::listeners"], ref) &&
+            Array.isArray(this["::listeners"][ref]);
+    }
+
+    private hasListener(ref: string, listener: Listener): boolean {
+        return this.isRegistered(ref) && this["::listeners"][ref].includes(listener);
+    } 
+
     /**
      * listen function registers a change listener function for a data source 
      * property by the provided refenrence.
      * @param {string} ref - The reference to register the listener.
      * @param {Listener} listener - Function to listen a property change
      */
-    listen(ref: string, listener: Listener) {
-        this["::listeners"][ref] = listener;
+    public listen(ref: string, listener: Listener) {
+        if (this.isRegistered(ref)) this["::listeners"][ref].push(listener);
+        else this["::listeners"][ref] = [ listener ];
     }
 
     /**
@@ -52,8 +62,8 @@ class Data {
      * source property.
      * @param {Listener} listener - Function to listen an any property change.
      */
-    listenAll(listener: Listener) {
-        this["::listeners"]["*"] = listener;
+    public listenAll(listener: Listener) {
+        this.listen("*", listener);
     }
 
     /**
@@ -62,10 +72,14 @@ class Data {
      * listener registered the function throws an error.
      * @param {string} ref - The reference to unregister the listener.
      */
-    dismiss(ref: string) {
-        if (Object.prototype.hasOwnProperty.call(this["::listeners"], ref)) {
-            delete this["::listeners"][ref];
-        } else throw new Error("the reference provided has not any listener registered.")
+    public dismiss(ref: string, listener: Listener = null) {
+        if (this.isRegistered(ref)) {
+            if (listener === null) this["::listeners"][ref] = [];
+            else if (this.hasListener(ref, listener)) {
+                const index = this["::listeners"][ref].indexOf(listener);
+                this["::listeners"][ref].splice(index, 1);
+            } else throw new Error("the listener provided is not registered for this reference.");
+        } else throw new Error("the reference provided has not any listener registered.");
     }
 
     /**
@@ -73,10 +87,12 @@ class Data {
      * the source data has not any global listener registered the function 
      * throws an error.
      */
-    dismissAll() {
-        if (Object.prototype.hasOwnProperty.call(this["::listeners"], "*")) {
-            delete this["::listeners"]["*"];
-        } else throw new Error("listenable data has not any global listener registered.")
+    public dismissAll(listener: Listener = null) {
+        try {
+            this.dismiss("*", listener);
+        } catch (_: any) {
+            throw new Error("listenable data has not any global listener registered.");
+        }
     }
 
     /**
@@ -135,13 +151,13 @@ class Data {
      * @ignore
      */
     private _handler(ref: string, value: any, last: any) {
-        if (Object.prototype.hasOwnProperty.call(this["::listeners"], ref)) {
-            const fn = this["::listeners"][ref];
-            fn(value, last);
-        }
-
-        if (Object.prototype.hasOwnProperty.call(this["::listeners"], "*")) {
-            const fn = this["::listeners"]["*"];
+        const listeners = [];
+        if (this.isRegistered(ref)) listeners.push(...this["::listeners"][ref]);
+        if (this.isRegistered("*")) listeners.push(...this["::listeners"]["*"]);
+            
+        const { length } = listeners;
+        for (let i = 0; i < length; i++) {
+            const fn = listeners[i];
             fn(value, last, ref);
         }
     }
@@ -168,11 +184,11 @@ class Data {
                     const currentRefs: string = [...refs, ref].join(REF_DELIMITER);
                     const currentValue: any = descriptor.value;
                     const lastValue: any = target[ref];
-              
+
                     const result = Reflect.defineProperty(target, ref, descriptor);
                     self._handler.call(self, currentRefs, currentValue, lastValue);
                     return result;
-                  }
+                }
             }
         }
 
