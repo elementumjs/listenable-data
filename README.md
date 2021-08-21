@@ -156,7 +156,7 @@ Checkout other import methods in [`dist/README.md`](https://github.com/elementum
 
 [3]: https://www.npmjs.com/package/@elementumjs/listenable-data
 
-[4]: docs/globals.md
+[4]: docs/modules.md
 
 [5]: LICENSE
 

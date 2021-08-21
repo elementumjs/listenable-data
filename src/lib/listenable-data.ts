@@ -1,3 +1,5 @@
+/** @module Data */
+
 /**
  * String delimiter of single references name of deep objects attributes.
  * @ignore
@@ -18,6 +20,7 @@ interface Listener {
 /**
  * Data class makes any object properties deeply observable and associates a 
  * listener to execute if the target object changes.
+ * @class Data
  */
 class Data {
     /**
@@ -37,11 +40,27 @@ class Data {
         return this._observable() as Data;
     }
 
+    /**
+     * isRegistered function checks if the current {@link Data} has the 
+     * reference provided already registered with any {@link Listener}
+     * @param {string} ref The reference to check if it is already registered.
+     * @returns {boolean} - Returns `true` if the ref provided has been already 
+     * listened.
+     */
     private isRegistered(ref: string): boolean {
         return Object.prototype.hasOwnProperty.call(this["::listeners"], ref) &&
             Array.isArray(this["::listeners"][ref]);
     }
 
+    /**
+     * hasListener function checks if the current {@link Data} has assigned the
+     * provided listener to the provided reference. It also check that the 
+     * reference is already registered calling {@link Data.isRegistered}
+     * @param {string} ref The data reference to check.
+     * @param {Listener} listener The listener function to check.
+     * @returns {boolean} - Returns `true` if the provided reference is already
+     * registered and includes the provided listener function.
+     */
     private hasListener(ref: string, listener: Listener): boolean {
         return this.isRegistered(ref) && this["::listeners"][ref].includes(listener);
     } 
@@ -67,10 +86,13 @@ class Data {
     }
 
     /**
-     * dismiss function unregisters a listener for the source data property 
-     * referenced by the provided reference. If provided reference has not any 
-     * listener registered the function throws an error.
+     * dismiss function unregisters the provided listener (or all of them if the  
+     * listener is not provided) for the source data property referenced by the 
+     * provided reference. If provided reference has not any listener registered 
+     * the function throws an error.
      * @param {string} ref - The reference to unregister the listener.
+     * @param {Listener=} listener - The listener to dismiss. If any listener is 
+     * provided, all listener will be dismissed.
      */
     public dismiss(ref: string, listener: Listener = null) {
         if (this.isRegistered(ref)) {
@@ -83,9 +105,12 @@ class Data {
     }
 
     /**
-     * dismiss function unregisters a global listener from the source data. If 
+     * dismissAll function unregisters the provided global listener from the source
+     * data. If the listener is not provided, all the global listeners will be dismissed.
      * the source data has not any global listener registered the function 
      * throws an error.
+     * @param {Listener=} listener - The global listener to dismiss. If any 
+     * listener is provided, all listener will be dismissed.
      */
     public dismissAll(listener: Listener = null) {
         try {
@@ -196,4 +221,4 @@ class Data {
     }
 }
 
-export default Data;
+export { Data };

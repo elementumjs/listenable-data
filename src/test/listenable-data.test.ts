@@ -1,4 +1,4 @@
-import Data from "../lib/listenable-data";
+import { Data } from "../lib/listenable-data";
 
 test("Data.constructor", () => {
     // Type tests for check if result object has the same keys/indexes and 
