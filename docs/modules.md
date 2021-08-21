@@ -4,4 +4,4 @@
 
 ### Classes
 
-- [Data](classes/Data.md)
+- [Data](classes/data.md)

@@ -7,16 +7,16 @@ listener to execute if the target object changes.
 
 ### Constructors
 
-- [constructor](Data.md#constructor)
+- [constructor](data.md#constructor)
 
 ### Methods
 
-- [contains](Data.md#contains)
-- [dismiss](Data.md#dismiss)
-- [dismissAll](Data.md#dismissall)
-- [listen](Data.md#listen)
-- [listenAll](Data.md#listenall)
-- [refs](Data.md#refs)
+- [contains](data.md#contains)
+- [dismiss](data.md#dismiss)
+- [dismissAll](data.md#dismissall)
+- [listen](data.md#listen)
+- [listenAll](data.md#listenall)
+- [refs](data.md#refs)
 
 ## Constructors
 
@@ -25,7 +25,7 @@ listener to execute if the target object changes.
 • **new Data**(`source`)
 
 Constructor envolves the source object into the current instance of
-[Data](Data.md) to allow to listen by property and then make it observable.
+[Data](data.md) to allow to listen by property and then make it observable.
 
 #### Parameters
 
